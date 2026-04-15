@@ -83,7 +83,7 @@ Naming convention: YYYY-MM-DD_Description_keywords.txt
 - Partner: Motoko. Daughter: Rina (adult, works in Tokyo financial sector). Father: Frank (94).
 - Trained at Weihenstephan, Doemens, and Heriot-Watt. Narziss lineage through Johannes Braun.
   Knows Narziss and other brewing scientists personally.
-- Brewing on original 1994 Kaspar Schulz equipment for 32 years.
+- Brewing on original 1994 Kaspar Schulz equipment for 36+ years.
 - Transitioning to Grand Employee contract ~May 15, 2026 (775,000 yen/month).
   Fujimine takes over primary brewing May 13th. Brian travels to Oklahoma May 13th
   for family business. Pipeline must be stable before that transition -- it is urgent.
