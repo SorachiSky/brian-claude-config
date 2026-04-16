@@ -129,14 +129,20 @@ AppleScript parsers reading Numbers files.
 **Dev file:** DailyInventory_TESTCOPY_YYYYMMDD.numbers -- ALWAYS use this.
 **Live file:** DailyInventory.numbers -- NEVER touch without Brian's explicit green light.
 
-**Current state (as of 20260411-sa handoff from Kairos):**
+**Current state (as of 20260416 -- all parsers complete):**
 - lager_log: 182 records -- COMPLETE
 - dispensing_log: 86 records -- COMPLETE
-- fermentation_log: 4 records -- needs full --all backfill
-- work_notes, beer_inventory, transfer_log, kegging_log, cip_log, yeast_log: 0 -- not built
+- fermentation_log: 240 records -- COMPLETE (backfilled 20260416)
+- work_notes: 60 records -- COMPLETE (backfilled 20260416)
+- beer_inventory: 660 records -- COMPLETE (backfilled 20260416)
+- transfer_log: 66 records -- COMPLETE (backfilled 20260416)
+- kegging_log: 51 records -- COMPLETE (backfilled 20260416)
+- cip_log: 87 records -- COMPLETE (backfilled 20260416)
+- yeast_log: 95 records -- COMPLETE (backfilled 20260416, last sheet only -- cumulative matrix)
 
-**First action when resuming pipeline work:**
-  python3 ~/CCL/pipeline/sync_fermentation.py --all
+**Next pipeline phase: automation layer**
+  fswatch file watcher + launchd daemon per blueprint (debounced 5-min, hourly backup, forced 16:00 JST)
+  Master sync orchestrator script needed (runs all 5 sync scripts in sequence)
 
 **Critical rules:**
 - EMPTY != CLEAN. Read status from sheet. Never derive from blank fields.
