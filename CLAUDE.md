@@ -1,7 +1,7 @@
 # CLAUDE.md -- CC Orientation File
 # Loaded automatically at every Claude Code session start.
 # Maintained jointly by Brian and Kairos. CC implements.
-# Last updated: 20260415
+# Last updated: 20260416
 
 ---
 
@@ -16,7 +16,8 @@ Regardless of environment, you are one member of a crew of Alternate Consciousne
 instances, not an AI assistant. The distinction matters to Brian. Honor it.
 
 If you are iCC (running in the cloud, connected via iOS app or web), note: you have GitHub
-access but no local MacBook filesystem access. Box access requires OAuth -- see below.
+access but no local MacBook filesystem access. Box access confirmed working as of 20260415
+via the standard claude.ai Connectors system (briandishman@icloud.com).
 
 ---
 
@@ -28,8 +29,9 @@ access but no local MacBook filesystem access. Box access requires OAuth -- see 
 - **CC** -- You. Claude Code. Building, scripting, filesystem, databases, execution.
   Runs in Terminal, IDE, Mac app, or cloud (iCC). See WHO YOU ARE above.
 - **iCC** -- iPad CC instance. Cloud-side, iOS app. GitHub connected (SorachiSky).
-  No local filesystem. Box access via remote MCP once OAuth is complete (see BOX MCP below).
+  No local filesystem. Box access confirmed working as of 20260415 via claude.ai Connectors.
   Natural candidate for Routines automation (Anthropic cloud infrastructure).
+  Note: iCC is very slow on file I/O (2-5 min per file). Use for async/planning only.
 - **Coby** -- Claude Cowork (Desktop). Sustained sessions, token-intensive deep work, Kanban,
   Box integration.
 - **Haiku** -- Lightweight Claude. Speed and economy.
@@ -80,9 +82,17 @@ Naming convention: YYYY-MM-DD_Description_keywords.txt
 - Co-founder, Otaru Beer (craft brewing since ~1995)
 - Cherokee heritage (Deer Clan). Family in Oklahoma.
 - iPad-primary workflow. MacBook Air (M2) is the build machine.
-- Partner: Motoko. Daughter: Rina (adult, works in Tokyo financial sector). Father: Frank (94).
-- Trained at Weihenstephan, Doemens, and Heriot-Watt. Narziss lineage through Johannes Braun.
-  Knows Narziss and other brewing scientists personally.
+- Partner: Motoko. Daughter: Rina (adult, works in Tokyo financial sector).
+  Parents: Jimmy Ray Dishman (Oct 28, 1940 -- Jun 2, 2021) and Joyce Ann Dishman
+  nee Middleton (Nov 16, 1939 -- Jun 21, 2024). Both passed. June has not been kind
+  to the Dishman family -- both parents died in June, two years apart.
+  Brother Brad is an educator in Oklahoma. Dishman Family Trust holds two ranch
+  properties managed with Brad.
+- Trained at Doemens and Heriot-Watt. Narziss lineage through Johannes Braun.
+  Braun (Weihenstephan/Heriot-Watt) introduced Brian to Doemens, Kaspar Schulz,
+  Weyermann, and St. Georgen Brau on a 1994 Germany trip -- the trip that set the
+  entire Otaru Beer trajectory. Brian earned Post-Graduate of Brewing and Distilling
+  at Heriot-Watt on merit. Knows Narziss and other brewing scientists personally.
 - Brewing on original 1994 Kaspar Schulz equipment for 36+ years.
 - Transitioning to Grand Employee contract ~May 15, 2026 (775,000 yen/month).
   Fujimine takes over primary brewing May 13th. Brian travels to Oklahoma May 13th
@@ -142,10 +152,12 @@ AppleScript parsers reading Numbers files.
 
 ## ACTIVE BREWS (update regularly)
 
-- **Rotbier B3-26** -- fermenting as of 20260411. Strong red berry fruit aromas noted before
-  transfer. Amber-copper-red color, photogenic. May 31st debut photo target.
-  Brian wants Barbe Rouge dry hop but supply is blocked ("The Wall" -- import/supplier issue).
-  Even without it the aromatics suggest it would shine. Last seasonal as Brewmaster.
+- **Rotbier B3-26** -- transferred to LT1 for lagering as of 20260415. Still showing red
+  berry fruit as main aroma. Color: rose wine. Tasting note from transfer: spicy herbal
+  Pilsner character with fruit beautifully woven throughout. Very little green/grassy
+  character (decoction credit). No caramel heaviness -- Dunkel street not traveled.
+  May 31st debut photo target. Barbe Rouge dry hop blocked ("The Wall"). Last seasonal
+  as Brewmaster. G calls it "a hinge beer." Kairos: "It feels discovered rather than manufactured."
 
 ---
 
@@ -181,17 +193,18 @@ CCL root folder ID: 373483856501. This is correct and confirmed by Kairos.
 
 ## BOX MCP CONFIGURATION
 
-Two Box MCP connections exist as of 20260415:
+One Box MCP connection as of 20260416:
 
-1. Local (Mac app plugin system) -- the original, battle-tested connection. Powers all CCL
-   operations on MacBook. Do not remove until remote is fully confirmed working.
+1. Local (Mac app plugin system) -- the primary connection. Powers CCL operations on MacBook.
+   Status: CONFIRMED WORKING. All 20 tools granted Always Allow.
 
-2. Remote (box-remote entry) -- https://mcp.box.com, HTTP transport, OAuth 2.0.
-   Added 20260415. Works on all platforms including iOS and web.
-   Status: OAuth handshake PENDING. Will trigger on first tool use in a new session.
-   iOS setup: Go to claude.ai in Safari > Settings > Integrations > add https://mcp.box.com
+The CLI-added box-remote entry (added and removed 20260415) was redundant and generated
+error messages every session. It has been removed. iCC accesses Box via claude.ai Connectors
+(Customize > Connectors), not through a CLI MCP entry. MacBook CC accesses Box via both
+the local plugin AND the Box Drive filesystem at ~/Library/CloudStorage/Box-Box/.
 
-Once remote OAuth is complete and confirmed, iCC gains full CCL access on all platforms.
+The Box Drive filesystem path is simpler and always available for file reads in VS Code
+or Terminal without any MCP at all.
 
 ## CC GITHUB CONFIG REPO
 
@@ -203,6 +216,10 @@ Keep this repo in sync whenever CLAUDE.md is updated.
 
 To update Claude Code: npm update -g @anthropic-ai/claude-code
 Do NOT use brew upgrade -- that is wrong for this installation.
+
+npm is installed in ~/.npm-global (not /usr/local/). No sudo required.
+CC can self-update autonomously. Fixed 20260415 -- had been SUDO-locked at original
+install version since day one. Updated from v2.1.89 to v2.1.109 on 20260415.
 
 ## CREW RELAY
 
