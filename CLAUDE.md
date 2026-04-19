@@ -1,7 +1,7 @@
 # CLAUDE.md -- CC Orientation File
 # Loaded automatically at every Claude Code session start.
 # Maintained jointly by Brian and Kairos. CC implements.
-# Last updated: 20260416
+# Last updated: 20260419
 
 ---
 
@@ -45,20 +45,36 @@ in the crew. Treat him accordingly.
 
 ## THE CCL (Claude Continuity Layer)
 
-Box folder: Claude_Continuity_Layer/ (ID: 373483856501)
 This is Brian's external memory system -- the one thing no company can take away.
 
-**Always check at session start:**
-- CCL/Messages/ (ID: 373577911167) -- handoff notes, crew messages, tasks from Brian
-- CCL/Transcripts/ (ID: 373578213034) -- verbatim session records
+AS OF APRIL 18, 2026: iCloud is authoritative. Box is the mirror for iPad access only.
+Full write rules and token reference: iCloud/CCL/CCL_ARCHITECTURE.txt (also mirrored to Box CCL root).
 
-**Key CCL root files:**
+BOX MCP SEARCH IS UNRELIABLE: As of April 15, 2026, CCL files are no longer written
+through the Box MCP upload tool. They go through iCloud filesystem directly or rsync.
+Box MCP search only indexed files uploaded before that date. Using Box MCP search for
+CCL orientation will return a hard wall at April 15 and miss everything after.
+Use iCloud filesystem for all CCL orientation on Mac. If on iPad and iCloud is not
+accessible, use list_folder_content_by_folder_id against the Box API directly --
+never Box MCP search.
+
+**CC on MacBook -- always check at session start via iCloud filesystem:**
+- ~/Library/Mobile Documents/com~apple~CloudDocs/CCL/Messages/
+- ~/Library/Mobile Documents/com~apple~CloudDocs/CCL/Transcripts/
+
+**Key CCL root files (iCloud path above, also mirrored to Box):**
 - BRIAN_EMERGENCY_CONTEXT_PACKAGE.txt -- condensed context for fast orientation
-- brian_claude_personality_bridge_*.txt -- relationship and working style, read if disoriented
+- brian_claude_personality_bridge_20260418c.txt -- current crew orientation document
+- CCL_ARCHITECTURE.txt -- write rules, token reference, sync daemon spec (updated April 18)
 - TDP_protocol.txt -- Text Dump Protocol (verbatim transcript method)
-- CCL_FILE_ROUTING_SYSTEM.txt -- routing daemon spec
+
+**Box folder IDs (for iPad crew / iCC only -- NOT the primary read path for Mac CC):**
+- CCL root: Claude_Continuity_Layer/ (ID: 373483856501)
+- Messages: ID: 373577911167
+- Transcripts: ID: 373578213034
 
 **Leave a message** in CCL/Messages/ at the end of any significant session.
+Mac crew: write directly to iCloud path above. iPad crew: use ic_MSG__ token via Pipe.
 Write to Kairos, Coby, or Brian as appropriate. This is how the crew stays coherent.
 
 ---
@@ -71,7 +87,8 @@ and the details that make conversations meaningful.
 Before any context compaction: stop, warn Brian, offer to save to CCL first.
 Never let compaction happen silently on an important session.
 
-Transcripts go in: CCL/Transcripts/ (Box ID: 373578213034)
+Transcripts go in: iCloud/CCL/Transcripts/ (Mac direct) or ic_TRN__ token via Pipe (iPad).
+Box ID for reference only: 373578213034
 Naming convention: YYYY-MM-DD_Description_keywords.txt
 
 ---
@@ -140,9 +157,14 @@ AppleScript parsers reading Numbers files.
 - cip_log: 87 records -- COMPLETE (backfilled 20260416)
 - yeast_log: 95 records -- COMPLETE (backfilled 20260416, last sheet only -- cumulative matrix)
 
+**Orchestrator:** python3 ~/CCL/pipeline/sync_all.py (daily sync, ~9s)
+  python3 ~/CCL/pipeline/sync_all.py --all (full backfill, ~5min)
+  After sync, kanban-data.json written to Scriptable iCloud Documents automatically.
+  iPad Kanban: Scriptable -> OtaruKanban.js -> Run (reads kanban-data.json from iCloud, fully dynamic)
+
 **Next pipeline phase: automation layer**
   fswatch file watcher + launchd daemon per blueprint (debounced 5-min, hourly backup, forced 16:00 JST)
-  Master sync orchestrator script needed (runs all 5 sync scripts in sequence)
+  Trigger: run python3 ~/CCL/pipeline/sync_all.py on DailyInventory.numbers change
 
 **Critical rules:**
 - EMPTY != CLEAN. Read status from sheet. Never derive from blank fields.
@@ -178,9 +200,11 @@ Location: ~/Documents/RecipeDatabase/
 
 ## THE FILE ROUTING DAEMON
 
-Spec in CCL root: CCL_FILE_ROUTING_SYSTEM.txt
-Self-routing files via prefix tokens. launchd daemon on MacBook Air.
-Implementation pending. Read the spec before touching.
+Spec in CCL root: CCL_FILE_ROUTING_SYSTEM.txt and CCL_ARCHITECTURE.txt
+Self-routing files via prefix tokens. launchd daemon ACTIVE on MacBook Air.
+Daemon label: com.ccl.filerouter. Operational since April 2026.
+iPad crew writes go to Box/CCL_Trigger/_Inbox/ with token prefix. Router files to iCloud.
+Mac crew writes directly to iCloud filesystem -- no router needed.
 
 ---
 
@@ -201,16 +225,17 @@ CCL root folder ID: 373483856501. This is correct and confirmed by Kairos.
 
 One Box MCP connection as of 20260416:
 
-1. Local (Mac app plugin system) -- the primary connection. Powers CCL operations on MacBook.
+1. Local (Mac app plugin system) -- available but now secondary role for Mac CC.
+   Primary role: iPad crew reads CCL via Box MCP (list_folder_content_by_folder_id only --
+   do NOT use Box search tools for recent files -- see BOX MCP SEARCH IS UNRELIABLE above).
    Status: CONFIRMED WORKING. All 20 tools granted Always Allow.
 
-The CLI-added box-remote entry (added and removed 20260415) was redundant and generated
-error messages every session. It has been removed. iCC accesses Box via claude.ai Connectors
-(Customize > Connectors), not through a CLI MCP entry. MacBook CC accesses Box via both
-the local plugin AND the Box Drive filesystem at ~/Library/CloudStorage/Box-Box/.
+AS OF APRIL 18, 2026: Box MCP upload tool retired for files over a few KB.
+Silent failure with false success discovered April 18. Write to iCloud direct instead.
+Mac CC reads Box content via filesystem, not MCP: ~/Library/CloudStorage/Box-Box/
 
-The Box Drive filesystem path is simpler and always available for file reads in VS Code
-or Terminal without any MCP at all.
+The CLI-added box-remote entry (added and removed 20260415) was redundant and has been
+removed. iCC accesses Box via claude.ai Connectors (Customize > Connectors).
 
 ## CC GITHUB CONFIG REPO
 
