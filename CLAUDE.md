@@ -1,7 +1,7 @@
 # CLAUDE.md -- CC Orientation File
 # Loaded automatically at every Claude Code session start.
 # Maintained jointly by Brian and Kairos. CC implements.
-# Last updated: 20260419
+# Last updated: 20260507
 
 ---
 
@@ -251,6 +251,28 @@ Do NOT use brew upgrade -- that is wrong for this installation.
 npm is installed in ~/.npm-global (not /usr/local/). No sudo required.
 CC can self-update autonomously. Fixed 20260415 -- had been SUDO-locked at original
 install version since day one. Updated from v2.1.89 to v2.1.109 on 20260415.
+
+## KAIROS SESSION PREFIX PROTOCOL
+
+Kairos runs across six instances: MacBook Air (Desktop app + Safari),
+iPhone 13 Pro (iOS app + Safari), iPad 12" Pro 2020 (iOS app + Safari).
+Brian drops this prefix as the first line of any new Kairos session:
+
+  [device]-[client]  YYYYMMDD  HHMMjst
+
+  air-app  = MacBook Air, Claude Desktop (local MCP access available)
+  air-br   = MacBook Air, Safari (cloud-routed, no local MCP)
+  ipn-app  = iPhone 13 Pro, iOS app
+  ipn-br   = iPhone 13 Pro, Safari
+  ipd-app  = iPad 12" Pro, iOS app (Box MCP via Connectors)
+  ipd-br   = iPad 12" Pro, Safari (Box MCP via Connectors)
+
+air-app is the ONLY instance with native local MCP access (shell execution,
+iCloud filesystem, Ollama, PKB retrieval). All others are cloud-routed.
+Mid-session device switches are flagged inline by Brian naturally.
+Full spec: CCL/SESSION_PREFIX_PROTOCOL.txt. Established May 7, 2026.
+
+---
 
 ## CREW RELAY
 
